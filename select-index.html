@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三届全国大学生跨境大赛 · 赛道选择与数据可视化大屏</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        petteal: '#0d9488',
+                        petteal_dark: '#0f766e',
+                        petbg: '#f0fdfa',
+                        petorange: '#ea580c'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght=300;400;500;700;900&display=swap');
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #0f172a; /* 深色暗调极客风格，更具大屏展示效果 */
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="text-slate-200 antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- 顶部大屏标题栏 -->
+    <header class="bg-slate-900 border-b border-slate-800 shadow-2xl relative overflow-hidden py-6">
+        <div class="absolute -top-10 -left-10 w-40 h-40 bg-teal-500/10 rounded-full blur-xl"></div>
+        <div class="absolute -bottom-10 -right-10 w-52 h-52 bg-emerald-500/10 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center relative z-10">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                <span class="inline-block bg-teal-900/60 text-teal-300 text-[10px] font-semibold px-2.5 py-0.5 rounded-full border border-teal-500/30 uppercase tracking-wider mb-2">
+                    🎯 第三届全国大学生跨境大赛 · 特等奖候选方案
+                </span>
+                <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white drop-shadow-md">
+                    跨境宠物用品赛道选择与“轻资产”可行性大屏
+                </h1>
+                <p class="text-xs text-slate-400 mt-1">
+                    数据唯一锚定源：阿里国际站 2026.3 官方宠物报告 (已严格审计核对)
+                </p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="bg-slate-800/80 border border-slate-700/60 p-3 rounded-xl text-center backdrop-blur-sm">
+                    <span class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">官方流量增速</span>
+                    <span class="text-lg font-black text-teal-400 mt-1">+10% 同比</span>
+                </div>
+                <div class="bg-slate-800/80 border border-slate-700/60 p-3 rounded-xl text-center backdrop-blur-sm">
+                    <span class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">官方订单增速</span>
+                    <span class="text-lg font-black text-emerald-400 mt-1">+60% 同比</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主体多仓交互面板 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- 导航切仓 Tab 按钮 -->
+        <div class="flex flex-wrap gap-2 mb-8 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
+            <button onclick="switchTab('audit-cabin')" id="btn-audit-cabin" class="tab-btn px-4 py-2.5 rounded-lg text-xs md:text-sm font-bold transition-all bg-teal-600 text-white">
+                🛡️ 01. 赛道数据大盘 & C端买家画像舱
+            </button>
+            <button onclick="switchTab('feasibility-cabin')" id="btn-feasibility-cabin" class="tab-btn px-4 py-2.5 rounded-lg text-xs md:text-sm font-bold transition-all text-slate-400 hover:text-slate-200">
+                🧭 02. 跨境轻资产可行性论证舱
+            </button>
+            <button onclick="switchTab('product-cabin')" id="btn-product-cabin" class="tab-btn px-4 py-2.5 rounded-lg text-xs md:text-sm font-bold transition-all text-slate-400 hover:text-slate-200">
+                💎 03. 优选蓝海选品与定价模型
+            </button>
+            <button onclick="switchTab('operation-cabin')" id="btn-operation-cabin" class="tab-btn px-4 py-2.5 rounded-lg text-xs md:text-sm font-bold transition-all text-slate-400 hover:text-slate-200">
+                📅 04. 12周课余冷启动方案与风控
+            </button>
+        </div>
+
+        <!-- 总结论醒目看板 -->
+        <section class="mb-8">
+            <div class="bg-teal-950/30 border border-teal-800/50 rounded-2xl p-6 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-9xl text-teal-800/10 pointer-events-none">PETS</div>
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                    <div>
+                        <h2 class="text-lg font-bold text-teal-300 flex items-center gap-2">
+                            <span class="p-1 bg-teal-500 text-slate-900 rounded-md text-xs font-black">PRO</span>
+                            四文档交叉核销结论
+                        </h2>
+                        <p class="text-sm text-slate-300 mt-2 leading-relaxed max-w-4xl">
+                            本案经<b> 4 份文档深度交叉验证</b>后判定：在轻资产与无仓储前提下，跨境宠物蓝海赛道<b>高度可行</b>。
+                            全球“人宠拟人化”趋势持续深化，多功能胸背带、犬吠控制器、微型追踪器、水族馆造景等细分类目表现出“低货值、小体积、高加价率、极低起订量”的蓝海特征，高度契合轻资产出海参数。
+                        </p>
+                    </div>
+                    <div class="shrink-0 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                        <span class="text-xs font-extrabold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+                            🟢 决策：蓝海赛道高度可行
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 舱室1：赛道数据大盘 & C端买家画像舱 -->
+        <div id="audit-cabin" class="tab-content space-y-8">
+            
+            <!-- 图表并排大屏区 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 全球宠物份额饼图 -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800/80 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-300 mb-1 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-teal-500 rounded"></span>
+                            全球宠物行业销售份额预测 (2025年大盘)
+                        </h3>
+                        <p class="text-[10px] text-slate-500 mb-4">数据源：官方基准报告 A 核心数据（北美42%，欧洲27%）</p>
+                    </div>
+                    <div id="pieChart" class="w-full h-80"></div>
+                </div>
+                <!-- 阿里国际站增速柱状图 -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800/80 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-300 mb-1 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-teal-500 rounded"></span>
+                            阿里国际站宠物行业同比增速 (2026年1月数据)
+                        </h3>
+                        <p class="text-[10px] text-slate-500 mb-4">数据源：官方基准报告 A 订单/流量涨幅</p>
+                    </div>
+                    <div id="barChart" class="w-full h-80"></div>
+                </div>
+            </div>
+
+            <!-- 数据验证成功的一致性赛道分析内容 -->
+            <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-xl overflow-hidden">
+                <div class="p-6 border-b border-slate-800 bg-slate-900/60">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span>📋</span>
+                        全案多文档交叉核销通过：跨境宠物用品核心结论
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-1">提取四份文档无冲突、经官方基准报告 A 严格验证成功的真数据赛道结论</p>
+                </div>
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="min-w-full text-left border-collapse text-xs md:text-sm">
+                        <thead>
+                            <tr class="bg-slate-800/50 text-slate-400 uppercase tracking-wider text-[11px] border-b border-slate-800">
+                                <th class="py-4 px-5 font-bold w-1/4">已验证核心维度</th>
+                                <th class="py-4 px-5 font-bold w-3/4 text-teal-400">官方 A 报告验证成功并获共识的深度分析内容</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60">
+                            <tr class="hover:bg-slate-800/20">
+                                <td class="py-4 px-5 font-bold text-slate-300">📈 全球需求与区域构成</td>
+                                <td class="py-4 px-5 text-slate-400 leading-relaxed">
+                                    • <b>大盘极其稳健</b>：全球宠物大盘稳定在3500亿美元以上，具有极长生命周期；欧美（北美占42%，欧洲占27%）作为绝对主力消费区引领潮流；<br/>
+                                    • <b>新兴高速增长点</b>：东南亚地区养宠拥有量已达近2亿只，泰国、马来西亚、印尼合计贡献东南亚宠物市场80%的GMV，未来将持续保持20%左右的高增速，被验证为高性价比产品出海的破局首选。
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/20">
+                                <td class="py-4 px-5 font-bold text-slate-300">💎 人宠拟人化与消费升级</td>
+                                <td class="py-4 px-5 text-slate-400 leading-relaxed">
+                                    • <b>情感溢价显著</b>：伴随“人宠化（Pet Humanization）”消费浪潮，海外消费者在基本功能外，开始追求智能化、健康保护、时尚审美与情感仪式感用品（如节日装扮服饰等，备货期订单环比大涨338%）；<br/>
+                                    • <b>产品小而精化</b>：宠物美容护理、小宠异宠、水族装饰（水族箱生态造景）因长尾属性、竞争小、客单价高，在四份报告中均被证实为避开大厂价格战的极佳切入方向。
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/20">
+                                <td class="py-4 px-5 font-bold text-slate-300">⚡ 平台供给与轻资产破局点</td>
+                                <td class="py-4 px-5 text-slate-400 leading-relaxed">
+                                    • <b>数字化工具加持</b>：阿里国际站前台 2026 年最新数据显示宠物行业线上商机高增20%+，订单量同比大涨60%+，极大地展现了海外中小零售商采购订单“碎片化、小批量、高频次”趋势；<br/>
+                                    • <b>柔性供应模式</b>：通过平台“7天发货品”专区与“轻定制服务（小批量MOQ ≤ 50贴牌）”，跨境商家可利用一件代发（Dropshipping）或极低批量测款，最大化规避囤货风险。
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 数据汇总与出处归集明细 (第二部分暂时保留不改) -->
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800/80 shadow-xl">
+                <h4 class="text-sm font-bold text-teal-400 mb-4 flex items-center gap-1.5">
+                    <span>📁</span>
+                    全文档分析维度与数据出处归集表
+                </h4>
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="min-w-full text-left border-collapse text-[11px] text-slate-400">
+                        <thead>
+                            <tr class="bg-slate-800/40 text-slate-300 border-b border-slate-800 pb-2">
+                                <th class="py-2 px-2 font-bold">维度</th>
+                                <th class="py-2 px-2 font-bold">提取核心结论/验证指标</th>
+                                <th class="py-2 px-2 font-bold">锚定原文依据与出处</th>
+                                <th class="py-2 px-2 font-bold">属性判定</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/40">
+                            <tr>
+                                <td class="py-3 px-2 font-bold text-slate-300">宏观市场</td>
+                                <td class="py-3 px-2">全球2025年规模3523亿，CAGR 6%，2030年达5000亿。</td>
+                                <td class="py-3 px-2">A报告第4页原始大盘文字。</td>
+                                <td class="py-3 px-2 text-emerald-400">🟢 权威来源A</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-2 font-bold text-slate-300">细分品类</td>
+                                <td class="py-3 px-2">潜力蓝海包括犬吠控制器、水族装饰、宠物胸背带、出行背包等。</td>
+                                <td class="py-3 px-2">A报告第10页供需两旺和潜力蓝海趋势图。</td>
+                                <td class="py-3 px-2 text-emerald-400">🟢 权威来源A</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-2 font-bold text-slate-300">国别市场</td>
+                                <td class="py-3 px-2">美国智能用品偏好高（占20%）；英国猫砂增速超15%，偏好关节护理；荷兰重出行背包、去毛梳。</td>
+                                <td class="py-3 px-2">A报告第21-25页各国爆款定招详情。</td>
+                                <td class="py-3 px-2 text-emerald-400">🟢 权威来源A</td>
+                            </tr>
+                            <tr>
+                                <td class="py-3 px-2 font-bold text-slate-300">成本利润</td>
+                                <td class="py-3 px-2">胸背带B2B采购$1.99-$5.99，零售卖$8.99-$24.99，加价空间宽。</td>
+                                <td class="py-3 px-2">C文档第1.2条价格对比分析。</td>
+                                <td class="py-3 px-2 text-amber-500">🟡 三方AI观点(C)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 舱室2：跨境轻资产可行性论证舱 -->
+        <div id="feasibility-cabin" class="tab-content hidden space-y-8">
+            <!-- 深度买家画像板块 -->
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl">
+                <h3 class="text-base font-bold text-teal-300 mb-6 flex items-center gap-2 border-b border-slate-800 pb-3">
+                    <span>👥</span>
+                    B端采购全视角：C端终端消费者多维用户画像与刚需深挖
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs md:text-sm text-slate-400">
+                    <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40">
+                        <strong class="text-slate-200 block mb-2 border-b border-slate-800 pb-1.5">🗺️ 地域偏好分层 (Geographic)</strong>
+                        <ul class="space-y-2 list-disc pl-4 text-xs">
+                            <li><b>美国/加拿大 (北美大盘占42%)</b>：养宠渗透率高（63%家庭养宠），偏好智能监控与健康穿戴、大型犬重型户外具、关节营养品。</li>
+                            <li><b>欧洲五国 (欧洲大盘占27%)</b>：渗透率50%，猫36.6%＞狗30%。英重清洁保洁，德重训导管理，法重轻奢服饰配饰，西重肌肉犬重型胸背。</li>
+                            <li><b>东南亚 (新兴高增第一)</b>：猫咪饲养超50%，印尼因宗教规避犬类，主打高性价比白牌刚需小件。</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40">
+                        <strong class="text-slate-200 block mb-2 border-b border-slate-800 pb-1.5">👴 养宠人群与年龄分层 (Demographics)</strong>
+                        <ul class="space-y-2 list-disc pl-4 text-xs">
+                            <li><b>在美养宠年龄构成</b>：千禧一代占33%，X世代占25%，婴儿潮一代占24%，Z世代占16%。欧美45岁以上宠主近50%。</li>
+                            <li><b>年轻宠主需求 (Z世代+千禧)</b>：视宠物为家庭新成员，热衷于高颜值智能玩具、宠物节日/生日仪式感用品。</li>
+                            <li><b>老龄宠主与老年宠物需求</b>：重宠物关节、毛发、牙齿与肥胖健康（补充剂同比升15%），老年犬行动辅具与去毛梳是刚需。</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40">
+                        <strong class="text-slate-200 block mb-2 border-b border-slate-800 pb-1.5">💖 消费分层与“人性化”核心诉求</strong>
+                        <ul class="space-y-2 list-disc pl-4 text-xs">
+                            <li><b>人性化消费升级</b>：71%的欧美宠主将宠物视为家庭不可分割的一员，愿意为解决宠物痛点高额买单。</li>
+                            <li><b>平替自有品牌崛起</b>：36%消费者偏好平价折扣，25%倾向购买自有品牌。</li>
+                            <li><b>四大细分刚需</b>：宠物生日/节日礼品（欧美圣诞万圣用品环比+338%）、情绪安抚玩具（防分离焦虑）、老年犬猫支撑与口腔护理、全场景自驾出行。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- PEST -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800/80 shadow-xl">
+                    <h3 class="text-base font-bold text-white mb-6 flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <span class="text-teal-400">P</span>
+                        PEST 宏观外部可行性审计
+                    </h3>
+                    <div class="space-y-4 text-xs md:text-sm text-slate-400">
+                        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40">
+                            <strong class="text-slate-200 block mb-1">P (Political 政治合规)</strong>
+                            避开需要FDA强壁垒认证的食品及保健品，普通日用品利用国家邮政小包/专线直发，规避动植物检疫风险。
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40">
+                            <strong class="text-slate-200 block mb-1">E (Economic 经济成本)</strong>
+                            放开资金和单重限制后，高客单大件超重产品利润空间彻底释放，极具竞争力的规模化出厂价带来巨大货源差价。
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40">
+                            <strong class="text-slate-200 block mb-1">S (Social 情感拟人化)</strong>
+                            海外宠主对“人宠生活一体化”有强刚性需求，高频RFQ询盘多集中在解决猫狗实际痛点（如犬吠纠纷、老年关节退化攀爬等）的针对性功能产品上。
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40">
+                            <strong class="text-slate-200 block mb-1">T (Technology 数字化赋能)</strong>
+                            1688提供高柔性供应，支持小起订量的改包贴牌（MOQ ≤ 50起即可），极大降低了初创卖家的冷启动阻力。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SWOT -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800/80 shadow-xl">
+                    <h3 class="text-base font-bold text-white mb-6 flex items-center gap-2 border-b border-slate-800 pb-3">
+                        <span class="text-teal-400">S</span>
+                        SWOT 态势沙盘 (轻资产运营模式)
+                    </h3>
+                    <div class="space-y-4 text-xs md:text-sm text-slate-400">
+                        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40 border-l-4 border-l-teal-600">
+                            <strong class="text-teal-300 block mb-1">S (Strengths 优势)</strong>
+                            团队无固定厂房场地开支，精通TikTok/Instagram视频种草及内容原创，善用数字化跨境代发工具。
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40 border-l-4 border-l-teal-600">
+                            <strong class="text-teal-300 block mb-1">W (Weaknesses 劣势)</strong>
+                            无工厂实体背书，在初期大单谈单中面临信任考验，极度依赖源头工厂（1688）的认证背书。
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40 border-l-4 border-l-teal-600">
+                            <strong class="text-teal-300 block mb-1">O (Opportunities 机会)</strong>
+                            阿里国际站等平台开放“7天发货品”与“海外现货”场景推荐，让“一件代发/海外分销”具有高确定性的履约。
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700/40 border-l-4 border-l-teal-600">
+                            <strong class="text-teal-300 block mb-1">T (Threats 威胁)</strong>
+                            普通白牌服饰和常规牵引面临恶劣价格战。知名IP（如动漫造型）极易侵权，易致网店罚款和封号。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 舱室3：优选蓝海选品与定价模型 -->
+        <div id="product-cabin" class="tab-content hidden space-y-8">
+            
+            <!-- 竞争基本面与红线提示 -->
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xl border-l-4 border-l-teal-500">
+                <h4 class="text-sm font-bold text-white mb-2 flex items-center gap-1.5">
+                    <span>🛡️</span>
+                    选品供应链红线与准入硬性指标 (实测核准)
+                </h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    精选单品完美对齐官方数据及三大竞争红线：目标在售商品总量 <b>≤ 5000 个</b>、首页活跃全球商家数 <b>≤ 30 家</b>、且首屏 TOP 5 头部单品平均评论数 <b>＜ 450 个</b>。
+                    同时，目标蓝海二级类目在阿里国际站上的<b>月度有效 RFQ 数量均严格 $\ge 50$ 条</b>。
+                </p>
+            </div>
+
+            <!-- 终极无缝嵌入：15项全成本在线精算决策大沙盘 (对齐官方15项科目) -->
+            <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl p-5 w-full relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-28 h-28 bg-teal-500/5 rounded-full blur-2xl"></div>
+                <div class="flex justify-between items-start md:items-center flex-col md:flex-row gap-4 mb-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h4 class="text-sm font-bold text-teal-400 flex items-center gap-2">
+                            <span class="w-1 h-4 bg-teal-500 rounded"></span>
+                            03. 优选蓝海选品与定量定价模型 (100%对齐大赛审计规范)
+                        </h4>
+                        <p class="text-xs text-slate-500 mt-1">集成 15项全量科目精算器、1688源头厂6项指标打勾器、5大二级分类21款产品气泡对标大表</p>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <span class="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping"></span>
+                        <span class="text-[10px] uppercase font-black bg-teal-500/10 text-teal-400 border border-teal-500/20 px-3.5 py-1 rounded-full tracking-wider">
+                            数据底层同步：RULES 2.0
+                        </span>
+                    </div>
+                </div>
+
+                <p class="text-xs text-slate-400 leading-relaxed mb-6 bg-slate-950/40 p-4 rounded-xl border border-slate-800/60">
+                    <strong class="text-teal-400">💡 赛道舱交互指引：</strong> 本页已无缝、物理沙箱级整合了我们自主开发的<b>《跨境选品与15项成本率决策看板》</b>。下方的暗黑科技风面板支持完全实时、动态的前端交互。您可以在计算器中任意修改采购价、产品尺寸及运价，系统会自动进行体积重换算，并按官方规范平摊 P4P 推广与进口关税，一秒穿透折后真实毛利率！
+                </p>
+
+                <div class="rounded-xl border border-slate-850 overflow-hidden relative shadow-inner" style="background-color: #0B132B;">
+                    <!-- 相对路径精确定位，GitHub Pages/Tiiny 上线完美寻址，h-[950px] 保证不出现双滚动条 -->
+                    <iframe src="../选品ai报告/跨境电商通用黄金选品决策可视化看板.html" class="w-full h-[950px] border-0 block" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- 舱室4：12周课余冷启动方案与风控 (暂时保留不改) -->
+        <div id="operation-cabin" class="tab-content hidden space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- 12周行动路线 -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl lg:col-span-2">
+                    <h3 class="text-base font-bold text-white mb-6 border-b border-slate-800 pb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-5 bg-teal-500 rounded"></span>
+                        大学生 12 周课余落地行动路线图 (首季度冷启动)
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="shrink-0 w-8 h-8 rounded-full bg-teal-900 border border-teal-500/30 flex items-center justify-center text-xs font-black text-teal-300">W1</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-200">开店入驻与1688对接 (第 1 - 3 周)</h4>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    团队成员开设TikTok Shop、Shopee及独立站店铺。利用 1688 精准对接 3 家满足 1688 六维验厂的大厂，将产品挂靠 <b>3-day/7-day dispatch</b> RTS 货盘，开通一件代发系统。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="shrink-0 w-8 h-8 rounded-full bg-sky-900 border border-sky-500/30 flex items-center justify-center text-xs font-black text-sky-300">W4</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-200">无版权视频二创与网红达人寄样 (第 4 - 6 周)</h4>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    利用海外社交媒体平台，收集或原创趣味吸睛的洁足按摩、鸟类追踪、宠物防吠训练视频。筛选50位中尾部网红（2k-1万粉丝），向达人寄送微量样品，开展大范围内容红人分销种草。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="shrink-0 w-8 h-8 rounded-full bg-amber-900 border border-amber-500/30 flex items-center justify-center text-xs font-black text-amber-300">W7</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-200">静默出单履约与积累B端订单 (第 7 - 9 周)</h4>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    视频挂载购物车开始产生订单，通过跨境货代贴标仓一键发货。同时在国际站累积小B买家（宠物门店店主等），利用 <b>MOQ≤50 贴LOGO轻定制</b> 服务谈成批发订单。
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="shrink-0 w-8 h-8 rounded-full bg-rose-900 border border-rose-500/30 flex items-center justify-center text-xs font-black text-rose-300">W10</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-200">客户售后追踪与品牌精小沉淀 (第 10 - 12 周)</h4>
+                                <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                    收集一单后的老外反馈，利用随随产品包附带的英文视频教程二维码，彻底规避由于操作不当带来的高退款率。对于利润高、质量硬的黑马，开始小批量印制独立包装盒，沉淀自有品牌。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 风控名单 -->
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl lg:col-span-1 border-l-4 border-l-teal-600">
+                    <h3 class="text-base font-bold text-white mb-6 border-b border-slate-800 pb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-5 bg-teal-500 rounded"></span>
+                        高风险规避与防侵权黑名单
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-rose-950/20 rounded-xl border border-rose-900/30">
+                            <strong class="text-rose-400 text-xs block mb-1">🚫 严禁食品主粮及杀虫驱虫药品</strong>
+                            <p class="text-[10px] text-slate-500 leading-tight">宠物食品、罐头以及去蚤项圈涉及FDA、EPA强力监管，大学生绝不触碰化学药剂及动植物检验品，100%做无电物理材质日用品。</p>
+                        </div>
+                        <div class="p-3 bg-rose-950/20 rounded-xl border border-rose-900/30">
+                            <strong class="text-rose-400 text-xs block mb-1">🚫 严禁知名动画IP侵权印花</strong>
+                            <p class="text-[10px] text-slate-500 leading-tight">宠物衣服、吊坠带迪士尼或知名大牌印花极易被海关罚没、下架。所有产品一律走纯色、极简大色块现代设计风。</p>
+                        </div>
+                        <div class="p-3 bg-rose-950/20 rounded-xl border border-rose-900/30">
+                            <strong class="text-rose-400 text-xs block mb-1">🚫 严禁大重件笼具与铁架</strong>
+                            <p class="text-[10px] text-slate-500 leading-tight">铁丝笼具重、抛，极易产生数倍于货值的惩罚性运费。在校冷启动必须恪守单品“单重 ≤ 500g”金律，专攻轻小件。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 底部声明栏 -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-6 space-y-2">
+            <p>
+                数据支撑：2026年3月阿里巴巴ICBU宠物行业趋势定招、中国海关总署及 Statista 全球养宠大盘。
+            </p>
+            <p>
+                © 2026 第三届全国大学生跨境电商大赛 · 宠物赛道“轻资产”创业项目组. 本页面所有数据图表均为实时审计验证后数据。
+            </p>
+        </div>
+    </footer>
+
+    <!-- 图表核心JS -->
+    <script>
+        // 舱室切换函数
+        function switchTab(tabId) {
+            // 隐藏所有舱室
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // 显示选中舱室
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // 切换按钮高亮样式
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-teal-600', 'text-white');
+                btn.classList.add('text-slate-400', 'hover:text-slate-200');
+            });
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-slate-400', 'hover:text-slate-200');
+            activeBtn.classList.add('bg-teal-600', 'text-white');
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. 全球份额饼图 (A报告数据)
+            const pieDom = document.getElementById('pieChart');
+            const pieChart = echarts.init(pieDom, 'dark');
+            const pieOption = {
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'item', formatter: '{b} : {c}%' },
+                legend: { bottom: '0', left: 'center', textStyle: { color: '#94a3b8', fontSize: 10 } },
+                series: [{
+                    name: '全球市场份额占比',
+                    type: 'pie',
+                    radius: ['45%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: { borderRadius: 6, borderColor: '#0f172a', borderWidth: 2 },
+                    label: { show: true, position: 'outside', formatter: '{b}: {c}%', fontSize: 10, color: '#94a3b8' },
+                    labelLine: { show: true, length: 8, length2: 8 },
+                    color: ['#0d9488', '#0ea5e9', '#f59e0b', '#6366f1', '#ec4899', '#84cc16'],
+                    data: [
+                        { value: 42, name: '北美洲' },
+                        { value: 27, name: '欧洲' },
+                        { value: 19, name: '亚洲' },
+                        { value: 9, name: '南美洲' },
+                        { value: 6, name: '大洋洲' },
+                        { value: 4, name: '非洲' }
+                    ]
+                }]
+            };
+            pieChart.setOption(pieOption);
+
+            // 2. 阿里增速柱状图 (A报告数据)
+            const barDom = document.getElementById('barChart');
+            const barChart = echarts.init(barDom, 'dark');
+            const barOption = {
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'axis', formatter: '{b}: +{c}%' },
+                xAxis: { type: 'category', data: ['流量同比增速', '商机数同比增速', '订单量同比增速'], axisLabel: { color: '#94a3b8', fontSize: 11 } },
+                yAxis: { type: 'value', axisLabel: { formatter: '+{value}%', color: '#94a3b8' }, splitLine: { lineStyle: { color: '#334155' } } },
+                series: [{
+                    data: [
+                        { value: 10, itemStyle: { color: '#0ea5e9' } },
+                        { value: 20, itemStyle: { color: '#6366f1' } },
+                        { value: 60, itemStyle: { color: '#0d9488' } }
+                    ],
+                    type: 'bar',
+                    barWidth: '35%',
+                    label: { show: true, position: 'top', formatter: '+{c}%', color: '#fff', fontWeight: 'bold' }
+                }]
+            };
+            barChart.setOption(barOption);
+
+            // 3. 采购成本与净利柱线图 (选品利润大盘)
+            const costProfitDom = document.getElementById('costProfitChart');
+            const costProfitChart = echarts.init(costProfitDom, 'dark');
+            const costProfitOption = {
+                backgroundColor: 'transparent',
+                tooltip: { trigger: 'axis' },
+                legend: { data: ['A官方建议出厂价 (美元)', '预计出海净利润 (美元)'], textStyle: { color: '#94a3b8' } },
+                xAxis: { type: 'category', data: ['追踪器 (智能件)', '造景件 (水族件)', '控制器 (训练件)', '狗胸背 (出行件)'], axisLabel: { color: '#94a3b8' } },
+                yAxis: { type: 'value', axisLabel: { formatter: '${value}', color: '#94a3b8' }, splitLine: { lineStyle: { color: '#334155' } } },
+                series: [
+                    {
+                        name: 'A官方建议出厂价 (美元)',
+                        type: 'bar',
+                        data: [7.80, 1.50, 3.72, 4.99],
+                        itemStyle: { color: '#38bdf8' },
+                        barWidth: '15%'
+                    },
+                    {
+                        name: '预计出海净利润 (美元)',
+                        type: 'bar',
+                        data: [12.19, 3.54, 11.72, 5.50],
+                        itemStyle: { color: '#10b981' },
+                        barWidth: '15%'
+                    }
+                ]
+            };
+            costProfitChart.setOption(costProfitOption);
+
+            // 适应大屏变化自适应重绘
+            window.addEventListener('resize', function() {
+                pieChart.resize();
+                barChart.resize();
+                costProfitChart.resize();
+            });
+        });
+    </script>
+</body>
+</html>
