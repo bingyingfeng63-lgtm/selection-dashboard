@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跨境电商通用黄金选品与15项全成本精算可视化决策看板</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome CDN (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0B132B',
+                            card: '#1C2541',
+                            primary: '#48CAE4',
+                            accent: '#F77F00',
+                            gold: '#FFD700',
+                            success: '#2EC4B6',
+                            danger: '#E63946',
+                            neutral: '#6C757D'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0B132B;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1C2541;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #48CAE4;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen custom-scrollbar">
+
+    <!-- HEADER -->
+    <header class="border-b border-gray-800 bg-brand-card/50 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-brand-primary to-brand-success flex items-center justify-center shadow-lg shadow-brand-primary/20">
+                <i class="fa-solid fa-chart-line text-brand-dark text-xl"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-wider bg-gradient-to-r from-brand-primary via-white to-brand-success bg-clip-text text-transparent">
+                    跨境电商通用“黄金星”蓝海选品决策看板 (二级分类版)
+                </h1>
+                <p class="text-xs text-gray-400 mt-0.5">第三届全国大学生跨境电商大赛专属 · 包含5大二级类目21款单品深度对标</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs px-2.5 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
+                决策底座：100% 对齐官方选品标准
+            </span>
+            <span class="text-xs text-gray-400">截止时间：2026年6月</span>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="p-6 max-w-7xl mx-auto space-y-8">
+
+        <!-- OVERVIEW SUMMARY CARDS -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-brand-card border border-gray-800 p-4 rounded-xl flex items-center justify-between shadow-lg">
+                <div>
+                    <p class="text-xs text-gray-400">蓝海一票选准指标</p>
+                    <p class="text-lg font-bold mt-1 text-brand-primary">搜索结果 &le; 5000</p>
+                    <p class="text-[10px] text-gray-400 mt-1">精准锁定低竞争高壁垒细分词</p>
+                </div>
+                <div class="w-12 h-10 rounded bg-brand-primary/5 flex items-center justify-center text-brand-primary">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-gray-800 p-4 rounded-xl flex items-center justify-between shadow-lg">
+                <div>
+                    <p class="text-xs text-gray-400">核心供应链可控底线</p>
+                    <p class="text-lg font-bold mt-1 text-brand-gold">5年厂 / 30%回头率</p>
+                    <p class="text-[10px] text-gray-400 mt-1">实力商家+深度验厂双认证</p>
+                </div>
+                <div class="w-12 h-10 rounded bg-brand-gold/5 flex items-center justify-center text-brand-gold">
+                    <i class="fa-solid fa-warehouse text-lg"></i>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-gray-800 p-4 rounded-xl flex items-center justify-between shadow-lg">
+                <div>
+                    <p class="text-xs text-gray-400">财务安全硬性警戒红线</p>
+                    <p class="text-lg font-bold mt-1 text-brand-success">精算毛利率 &ge; 30%</p>
+                    <p class="text-[10px] text-gray-400 mt-1">平摊15项成本后的真实纯利护城河</p>
+                </div>
+                <div class="w-12 h-10 rounded bg-brand-success/5 flex items-center justify-center text-brand-success">
+                    <i class="fa-solid fa-coins text-lg"></i>
+                </div>
+            </div>
+            <div class="bg-brand-card border border-gray-800 p-4 rounded-xl flex items-center justify-between shadow-lg">
+                <div>
+                    <p class="text-xs text-gray-400">学生高频漏算重点拦截</p>
+                    <p class="text-lg font-bold mt-1 text-brand-danger">关税/信保/汇损计提</p>
+                    <p class="text-[10px] text-gray-400 mt-1">P4P占毛利15%-25%强制折损</p>
+                </div>
+                <div class="w-12 h-10 rounded bg-brand-danger/5 flex items-center justify-center text-brand-danger">
+                    <i class="fa-solid fa-hand text-lg"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISUAL CHARTS SECTION (Chart.js) -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Bubble chart for 2D Priority Matrix -->
+            <div class="bg-brand-card border border-gray-800 p-5 rounded-2xl shadow-xl col-span-2">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-sm font-bold tracking-wide text-brand-primary flex items-center gap-2">
+                        <i class="fa-solid fa-circle-nodes"></i> 2D 优先级矩阵：5大类目21款单品综合分层定位
+                    </h2>
+                    <span class="text-[10px] bg-brand-primary/10 border border-brand-primary/20 text-brand-primary px-2 py-0.5 rounded">多报告加权拟合</span>
+                </div>
+                <div class="h-[280px] relative w-full flex items-center justify-center">
+                    <canvas id="priorityBubbleChart"></canvas>
+                </div>
+            </div>
+            <!-- Radar or pie chart for Cost proportions -->
+            <div class="bg-brand-card border border-gray-800 p-5 rounded-2xl shadow-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-sm font-bold tracking-wide text-brand-success flex items-center gap-2">
+                        <i class="fa-solid fa-pie-chart"></i> 100%对齐官方：15项全成本穿透核算比例
+                    </h2>
+                </div>
+                <div class="h-[200px] relative w-full flex items-center justify-center">
+                    <canvas id="costDoughnutChart"></canvas>
+                </div>
+                <p class="text-[10px] text-gray-400 mt-4 leading-relaxed bg-brand-dark/40 p-2 rounded border border-gray-800/40">
+                    <span class="text-brand-danger font-semibold"><i class="fa-solid fa-triangle-exclamation"></i> 官方警示：</span>学生选品高频漏算<b>目的国进口关税 (北美10%-25%)</b>、<b>P4P推广 (占毛利 15%-25%)</b> 与 <b>信保手续费/汇兑损益 (计提2%波动)</b>。
+                </p>
+            </div>
+        </section>
+
+        <!-- 9 PRODUCTS SELECTION MATRIX TABLE -->
+        <section class="bg-brand-card border border-gray-800 rounded-2xl shadow-xl overflow-hidden">
+            <div class="p-5 border-b border-gray-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-base font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-table"></i> 5大二级类目深度横向核销比拼（支持模糊搜索与评级过滤）
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-1">完美集成官方“趋势”与“定招”产品参数，进行全成本毛利率、压缩率及供应链核查对比</p>
+                </div>
+                <!-- Interactive Search and Filter -->
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <div class="relative w-full md:w-64">
+                        <input type="text" id="tableSearch" placeholder="搜索品类、定级或结论..." class="w-full bg-brand-dark border border-gray-800 rounded-lg py-1.5 pl-8 pr-3 text-xs focus:outline-none focus:border-brand-primary text-gray-300">
+                        <i class="fa-solid fa-search text-gray-500 absolute left-2.5 top-2.5 text-xs"></i>
+                    </div>
+                    <select id="gradeFilter" class="bg-brand-dark border border-gray-800 rounded-lg py-1.5 px-3 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                        <option value="all">所有评级</option>
+                        <option value="S">S 级 (优先主推)</option>
+                        <option value="A">A 级 (安全测款)</option>
+                        <option value="B">B 级 (环保快周转)</option>
+                        <option value="C">C 级 (红海放弃)</option>
+                        <option value="⛔">⛔ 强制排除</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-brand-dark/50 border-b border-gray-800 text-gray-300 font-semibold uppercase">
+                            <th class="py-3.5 px-4 w-1/5">二级分类 / 候选单品名称</th>
+                            <th class="py-3.5 px-4 text-center">蓝海三指标核销<br><span class="text-[9px] text-gray-500">(搜索≤5k/商家≤30/RFQ≥50)</span></th>
+                            <th class="py-3.5 px-4 text-right">精算毛利率<br><span class="text-[9px] text-gray-500">(含15项全成本穿透)</span></th>
+                            <th class="py-3.5 px-4 text-center">体积重压缩率<br><span class="text-[9px] text-gray-500">(压缩/真空&ge;30%)</span></th>
+                            <th class="py-3.5 px-4">合规/退货率壁垒</th>
+                            <th class="py-3.5 px-4 text-center">源头MOQ / 官方净利</th>
+                            <th class="py-3.5 px-4 w-1/4">冲突纠偏与终审决策</th>
+                            <th class="py-3.5 px-4 text-center">终审评级</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrixTableBody" class="divide-y divide-gray-800/40">
+                        
+                        <!-- 二级类目 1：情感定制与纪念用品 -->
+                        <tr class="bg-gradient-to-r from-brand-card to-brand-dark/50 font-bold text-brand-gold text-xs category-row-header" data-cat="cat1">
+                            <td colspan="8" class="py-3 px-4">
+                                <i class="fa-solid fa-ribbon mr-1.5"></i> 一、 情感定制与纪念用品 (S级主推利润大类) — 行业均回头率 42.5%，高复购高粘性
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="S" data-cat="cat1">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                <span class="text-[10px] text-brand-gold mr-1"><i class="fa-solid fa-star"></i></span>
+                                宠物殡葬及定制纪念品
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索1822 / 商家11 / RFQ 74)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">62.6% - 80%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">优秀</span><br>
+                                <span class="text-[10px] text-gray-500">自重极轻，包材套叠</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-heart"></i> &le; 3.0% (极佳)</span><br>
+                                <span class="text-[10px] text-gray-400">情感无尺寸纠纷，规避破碎损坏</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">5 - 50 件<br><span class="text-brand-success text-[10px]">净利: 60%+</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **三方高度共识：** 最具情感复购、抗经济波动的极高溢价品。支持激光定制照片/名字。适合直发空派保本切入。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-gold text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">S 级 优先主推</span>
+                            </td>
+                        </tr>
+
+                        <!-- 二级类目 2：智能硬件与精密定位 -->
+                        <tr class="bg-gradient-to-r from-brand-card to-brand-dark/50 font-bold text-brand-primary text-xs category-row-header" data-cat="cat2">
+                            <td colspan="8" class="py-3 px-4">
+                                <i class="fa-solid fa-microchip mr-1.5"></i> 二、 智能硬件与精密定位 (A级高毛利微创新大类) — 智能硬件加速渗透，欧美高客单刚需
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat2">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                鸟类微型智能追踪器 (①爆款)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索2150 / 商家14 / RFQ 65)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">54.2%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">极佳</span><br>
+                                <span class="text-[10px] text-gray-500">微型无重，运费极低</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">良好 (退货率 5.4%)</span><br>
+                                <span class="text-[10px] text-gray-400">需带电运输认证；防电池起火</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-primary text-[10px]">官方利: $12.19</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一爆款：** 建议出厂价 \$7.80。解决美国高购买力买家对安全、追踪的高阶刚需。极其适合轻小空派走货。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat2">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                室外无线GPS定位围栏 (②定招)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索1120 / 商家8 / RFQ 52)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">56.5%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">良好</span><br>
+                                <span class="text-[10px] text-gray-500">外壳紧凑，平铺包装</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">中等 (退货率 7.8%)</span><br>
+                                <span class="text-[10px] text-gray-400">需户外防水认证(IP67)与FCC防雷</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">20 件<br><span class="text-brand-primary text-[10px]">官方利: $41.20</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一主力定招：** 建议出厂价 \$27.00，欧美高溢价。起订量仅 20 件，极佳的轻资产高客单长尾品类。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat2">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                智能夜光安抚追踪项圈 (③爆款)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索3190 / 商家21 / RFQ 58)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">51.8%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">极佳</span><br>
+                                <span class="text-[10px] text-gray-500">软质轻量，体积重极低</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">良好 (退货率 4.2%)</span><br>
+                                <span class="text-[10px] text-gray-400">防皮肤过敏(无毒硅胶)与UN38.3带电报告</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-primary text-[10px]">官方利: $8.19</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一爆款：** 建议出厂价 \$4.30。夜光安抚与微型追踪二合一，解决欧美用户夜间遛宠安全痛点。MOQ 50 件极低。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat2">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                宠物噪音防护防卫耳罩
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索2095 / 商家16 / RFQ 62)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">52.3%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-primary font-medium">极佳 (折叠40%)</span><br>
+                                <span class="text-[10px] text-gray-500">软质泡沫，体积重低</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">良好 (退货率 6.9%)</span><br>
+                                <span class="text-[10px] text-gray-400">文案严禁医疗/听保，走安抚避开EPA注册</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">10 - 20 个<br><span class="text-brand-primary text-[10px]">精算利: 50%+</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **我们已有A级品：** 极优蓝海。1688低价拿货，高柔性支持改色印花。需排查外观专利以防阻击，文案去功能化。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+
+                        <!-- 二级类目 3：小宠异宠与水族美学 -->
+                        <tr class="bg-gradient-to-r from-brand-card to-brand-dark/50 font-bold text-brand-success text-xs category-row-header" data-cat="cat3">
+                            <td colspan="8" class="py-3 px-4">
+                                <i class="fa-solid fa-fish mr-1.5"></i> 三、 小宠异宠与水族美学 (A级中产美学大类) — 避开红海价格战，主打高客单、美学定制
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat3">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                树脂高仿真水族造景件 (①蓝海)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索1260 / 商家9 / RFQ 54)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">56.2%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">良好</span><br>
+                                <span class="text-[10px] text-gray-500">虽有防震包，可套叠运输</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-success font-medium">极优 (退货率 2.8%)</span><br>
+                                <span class="text-[10px] text-gray-400">无尺码退换；树脂环保无毒水安全检测报告</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-success text-[10px]">官方利: $3.54</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一爆款：** 建议出厂价 \$1.50。高客单非标品，避开红海价格战，主打中产美学高纯利。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat3">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                实木仓鼠多层爬梯木屋 (②定招)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索2100 / 商家12 / RFQ 51)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">50.5%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-primary font-medium">极佳 (拆装50%)</span><br>
+                                <span class="text-[10px] text-gray-500">散件出运，买家到手组装</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">良好 (退货率 4.5%)</span><br>
+                                <span class="text-[10px] text-gray-400">实木需符合原木进口检疫(FSC熏蒸证书)</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-primary text-[10px]">官方利: $18.40</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一主力定招：** 建议出厂价 \$10.10。板件平铺，完美突破体积重瓶颈，低运费高溢价，利润空间大。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat3">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                精致铁艺圆顶互动鸟笼 (③定招)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索2450 / 商家15 / RFQ 55)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">52.8%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-yellow-500 font-medium">中等偏抛 (需折叠)</span><br>
+                                <span class="text-[10px] text-gray-500">折叠包装后运费减少35%</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-yellow-500 font-medium">良好 (退货率 6.1%)</span><br>
+                                <span class="text-[10px] text-gray-400">金属防锈漆需REACH指令环保检测</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-primary text-[10px]">官方利: $7.19</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一主力定招：** 建议出厂价 \$2.30。圆顶高复古美感。相较于笨重硬质大狗笼，其设计紧凑可扁平折叠发货。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <!-- 二级类目 4：日常行为训练与健康护理 -->
+                        <tr class="bg-gradient-to-r from-brand-card to-brand-dark/50 font-bold text-brand-success text-xs category-row-header" data-cat="cat4">
+                            <td colspan="8" class="py-3 px-4">
+                                <i class="fa-solid fa-dog mr-1.5"></i> 四、 日常行为训练与健康护理 (A/B级高溢价大类) — 关爱宠物关节与日常护理行为，消费粘性高，复购极其稳定
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat4">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                超声波防犬吠训练器 (①爆款)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索3110 / 商家19 / RFQ 66)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">53.5%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">极佳</span><br>
+                                <span class="text-[10px] text-gray-500">外壳紧凑，平铺包装，无泡货险</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">良好 (退货率 5.1%)</span><br>
+                                <span class="text-[10px] text-gray-400">非电击安全安抚，文案避开医疗宣传</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-primary text-[10px]">官方利: $11.72</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一爆款：** 建议出厂价 \$3.72。利用低频声学微创新切入刚需训练，避开传统电击项圈的高退货和合规处罚。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat4">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                矮脚犬PP高韧关节楼梯 (②定招)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索1190 / 商家9 / RFQ 52)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">52.4%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-primary font-medium">极佳 (拆装压缩60%)</span><br>
+                                <span class="text-[10px] text-gray-500">可折叠PP插扣，体积运费极低</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">良好 (退货率 4.9%)</span><br>
+                                <span class="text-[10px] text-gray-400">柯基等短腿犬关节防护，高溢价高复购</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">20 件<br><span class="text-brand-primary text-[10px]">官方利: $24.50</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一主力定招：** 建议出厂价 \$15.00。PP插扣拆装设计让体积缩减 60%，完胜硬重海绵关节楼梯。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat4">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                硅胶防抓去毛洗澡手套 (③定招)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索4120 / 商家26 / RFQ 72)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">51.2%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">极佳</span><br>
+                                <span class="text-[10px] text-gray-500">超轻，可挤压，运费成本低</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-success font-medium">极优 (退货率 3.1%)</span><br>
+                                <span class="text-[10px] text-gray-400">食品级安全硅胶(FDA报告)；无尺寸退换</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-primary text-[10px]">官方利: $4.16</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一主力定招：** 建议出厂价 \$1.43。防咬防抓，打理洗澡二合一。小件高频消耗，回头采购高。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="B" data-cat="cat4">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                可降解宠物训练尿垫
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    细分达标 ✔ (搜索3860 / 商家24 / RFQ 58)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">52.4%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-yellow-500 font-medium">中等偏抛 (需压缩)</span><br>
+                                <span class="text-[10px] text-gray-500">出货必须做超强真空压缩</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-yellow-500 font-medium">中等 (需真实堆肥认证)</span><br>
+                                <span class="text-[10px] text-gray-400">防无证绿洗；退货率 4.8%</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">&ge; 1000 个<br><span class="text-brand-success text-[10px]">精算利: 50%+</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **我们已有B级品：** 耗用原材料起订量普遍高。作为账号流量消耗品。首单必须强真空压缩。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-success text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">B 级 快速周转</span>
+                            </td>
+                        </tr>
+
+                        <!-- 二级类目 5：出行节日仪式感与随行防护 -->
+                        <tr class="bg-gradient-to-r from-brand-card to-brand-dark/50 font-bold text-brand-danger text-xs category-row-header" data-cat="cat5">
+                            <td colspan="8" class="py-3 px-4">
+                                <i class="fa-solid fa-car-side mr-1.5"></i> 五、 出行节日仪式感与随行防护 (A/B/C/⛔综合大类) — 圣诞万圣节日需求高涨，安全出行爆冲，但需严防退货与侵权红线
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="B" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                圣诞聚会高透蕾丝裙服饰 (①趋势)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索3880 / 商家18 / RFQ 52)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">50.5%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">极佳</span><br>
+                                <span class="text-[10px] text-gray-500">超薄平铺，零体积运费</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-yellow-500 font-medium">中等 (退货率 15.6%)</span><br>
+                                <span class="text-[10px] text-gray-400">节日服饰强季节性；有尺码客诉风险</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-success text-[10px]">官方利: $6.49</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一趋势品：** 建议出厂价 \$2.00。蕾丝高透独特美感。节日环比飙升 338%，由于起订极低适合作为“快速测温款”微量试销。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-success text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">B 级 快速测温</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                尼龙反光防爆冲胸背 (②定招)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索2150 / 商家14 / RFQ 62)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">52.8%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">良好</span><br>
+                                <span class="text-[10px] text-gray-500">网带折叠，无泡重，运费安全</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">良好 (退货率 6.2%)</span><br>
+                                <span class="text-[10px] text-gray-400">反光织带安全出海认证，拉力极限质检</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-primary text-[10px]">官方利: $5.50</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一主力定招：** 建议出厂价 \$4.99。双重尼龙加固，反光丝。解决携宠出行安全与防挣脱的社媒高频爆款痛点。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="A" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                3合1户外随行旅行水瓶 (③定招)
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索1890 / 商家12 / RFQ 55)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">51.4%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-primary font-medium">优秀 (套叠组合)</span><br>
+                                <span class="text-[10px] text-gray-500">水粮袋三合一紧凑套叠</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-primary font-medium">良好 (退货率 4.7%)</span><br>
+                                <span class="text-[10px] text-gray-400">无毒食品级塑料(BPA-Free检测)；不漏水工艺</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">50 件<br><span class="text-brand-primary text-[10px]">官方利: $7.82</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **官方图一主力定招：** 建议出厂价 \$6.17。水杯、狗粮盒、便袋舱三合一，解决户外饮水喂食痛点，受众广。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-primary text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">A 级 安全测款</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="B" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-white pl-8">
+                                拾便袋夹子便携装置
+                            </td>
+                            <td class="py-4 px-4 text-center text-emerald-400 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px]">
+                                    全绿达标 ✔ (搜索2689 / 商家18 / RFQ 58)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-emerald-400 font-semibold text-sm">55.3%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-danger font-medium">较差 (塑料大刚性)</span><br>
+                                <span class="text-[10px] text-gray-500">无法压缩，海运首选</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-yellow-500 font-medium">良好 (退货率 5.9%)</span><br>
+                                <span class="text-[10px] text-gray-400">质检需防卡扣断裂；REACH认证</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">35 - 75 件<br><span class="text-brand-success text-[10px]">精算利: 50%+</span></td>
+                            <td class="py-4 px-4 text-gray-300 leading-relaxed">
+                                **我们已有B级品：** 单卖体积大且没技术壁垒，运费侵蚀强。必须将其与拾便袋打包套装售卖。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-success text-brand-dark font-extrabold text-[10px] tracking-wider shadow-md">B 级 捆绑配件</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="C" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-gray-400 pl-8">
+                                可生物降解宠物拾便袋
+                            </td>
+                            <td class="py-4 px-4 text-center text-yellow-500 font-medium">
+                                <span class="px-2 py-0.5 rounded bg-yellow-500/10 border border-yellow-500/20 text-[10px]">
+                                    基本达标 ⚠️ (搜索3126 / 商家21 / RFQ 69)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-brand-danger font-semibold text-sm">17.5%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-gray-500 font-medium">一般 (自重重)</span><br>
+                                <span class="text-[10px] text-gray-500">属于重小件</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-yellow-500 font-medium">良好 (退货率 3.8%)</span><br>
+                                <span class="text-[10px] text-gray-400">集体诉讼高发区，无证极易面临处罚</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">45 - 80 卷<br><span class="text-brand-danger text-[10px]">精算利: 17.5%</span></td>
+                            <td class="py-4 px-4 text-gray-400 leading-relaxed">
+                                **我们已有C级品：** 典型红海。P4P由于竞价过于火热，平摊成本高达12%，加上海运运费，真实毛利被严重压榨。大学生坚决避开。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-neutral text-white font-extrabold text-[10px] tracking-wider shadow-md">C 级 纸面富贵</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="C" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-gray-400 pl-8">
+                                万圣/圣诞节日变身服饰
+                            </td>
+                            <td class="py-4 px-4 text-center text-brand-danger font-medium">
+                                <span class="px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20 text-[10px]">
+                                    红海饱和 ❌ (搜索7162 / 商家45 / RFQ 38)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-brand-danger font-semibold text-sm">13.5%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">极佳</span><br>
+                                <span class="text-[10px] text-gray-500">压实包装，空海运便宜</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-danger font-bold"><i class="fa-solid fa-heart-broken"></i> 34.7% (灾难)</span><br>
+                                <span class="text-[10px] text-gray-400">尺码客诉极多，纺织品面临特殊额外关税</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">40 - 60 件<br><span class="text-brand-danger text-[10px]">精算利: 13.5%</span></td>
+                            <td class="py-4 px-4 text-gray-400 leading-relaxed">
+                                **我们已有C级品：** 季节性清库压力是初创者粉碎机。退货率极高直接吃掉任何账面毛利。属于大学生死穴，一票否决。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-neutral text-white font-extrabold text-[10px] tracking-wider shadow-md">C 级 退货黑洞</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="C" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-gray-400 pl-8">
+                                发声环保安全咬嚼玩具
+                            </td>
+                            <td class="py-4 px-4 text-center text-brand-danger font-medium">
+                                <span class="px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20 text-[10px]">
+                                    红海饱和 ❌ (搜索4080 / 商家27 / RFQ 54)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-brand-danger font-semibold text-sm">15.0%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">良好</span><br>
+                                <span class="text-[10px] text-gray-500">可挤压运输</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-danger font-medium">极差 (易咬碎吞咽)</span><br>
+                                <span class="text-[10px] text-gray-400">有宠主控告窒息赔偿风险；专利诉讼频发</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">72 - 90 件<br><span class="text-brand-danger text-[10px]">精算利: 15%</span></td>
+                            <td class="py-4 px-4 text-gray-400 leading-relaxed">
+                                **我们已有C级品：** 大牌垄断严重，高昂的直通车 P4P 流量使得白牌没有展示空间。一票否决或待降。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-neutral text-white font-extrabold text-[10px] tracking-wider shadow-md">C 级 巨头垄断</span>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="C" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-gray-400 pl-8">
+                                实木大型防爆重型金属狗笼
+                            </td>
+                            <td class="py-4 px-4 text-center text-brand-danger font-medium">
+                                <span class="px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20 text-[10px]">
+                                    竞争重灾 ❌ (搜索11980 / 商家57 / RFQ 73)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-brand-danger font-semibold text-sm">4.0%</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-danger font-bold">致命 (大件重抛)</span><br>
+                                <span class="text-[10px] text-gray-500">运费是货值的 3-5 倍，无压缩</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-yellow-500 font-medium">中等 (破损 11.8%)</span><br>
+                                <span class="text-[10px] text-gray-400">物流断裂刮花，木材出口需FSC复杂熏蒸证</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">300 - 500 件<br><span class="text-brand-danger text-[10px]">精算利: 4%</span></td>
+                            <td class="py-4 px-4 text-gray-400 leading-relaxed">
+                                **我们已有C级品：** 重抛大件吞噬所有的流动资金，压仓费极高，钢材铁艺属于大厂资本游戏。初创大学生一碰即死。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-neutral text-white font-extrabold text-[10px] tracking-wider shadow-md">C 级 运费绞杀</span>
+                            </td>
+                        </tr>
+                        <!-- ⛔ 强力否决 -->
+                        <tr class="hover:bg-gray-800/20 transition-all table-row-item" data-grade="⛔" data-cat="cat5">
+                            <td class="py-4 px-4 font-bold text-brand-danger pl-8">
+                                <span class="text-[10px] text-brand-danger mr-1"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                                天然草本防蚊除蚤驱虫项圈
+                            </td>
+                            <td class="py-4 px-4 text-center text-brand-danger font-medium">
+                                <span class="px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20 text-[10px]">
+                                    资质严审 ❌ (搜索6070 / 商家37 / RFQ 80)
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-right text-brand-danger font-bold text-sm">不适用 (海关扣留)</td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="text-brand-success font-medium">极佳</span><br>
+                                <span class="text-[10px] text-gray-500">极轻小件</span>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="text-brand-danger font-extrabold"><i class="fa-solid fa-skull"></i> 致命红区 (海关扣货100%)</span><br>
+                                <span class="text-[10px] text-gray-400">FDA/EPA/BPR农化严格准入；宠物过敏索赔</span>
+                            </td>
+                            <td class="py-4 px-4 text-center font-medium">不给起订 (无资质)</td>
+                            <td class="py-4 px-4 text-brand-danger font-medium leading-relaxed font-bold">
+                                **我们已有⛔级品：** 化学制剂及驱虫药残属于国际海关特殊检疫品，严禁触碰。无EPA证书上架直接封店。
+                            </td>
+                            <td class="py-4 px-4 text-center">
+                                <span class="px-3 py-1 rounded-full bg-brand-danger text-white font-extrabold text-[10px] tracking-wider shadow-md">⛔ 强制排除</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 15-FACTOR INTERACTIVE COST CALCULATOR & 1688 SUPPLY CHAIN AUDIT -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- 1688 6-Factor Supply Chain Verification Checklist -->
+            <div class="bg-brand-card border border-gray-800 rounded-2xl shadow-xl p-5 flex flex-col justify-between">
+                <div>
+                    <div class="border-b border-gray-800 pb-3 mb-4">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-industry text-brand-gold"></i> 1688 柔性供应链落地 6 项硬性标准核销
+                        </h3>
+                        <p class="text-[10px] text-gray-400 mt-1">在 1688 拿货时，必须通过邀虾插件或产品参谋核销以下 6 项，全勾选方可立项</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-3 p-2 rounded bg-brand-dark/30 border border-gray-800/40 hover:bg-gray-800/20 cursor-pointer transition-all">
+                            <input type="checkbox" id="sc_1" class="sc-chk mt-1 w-3.5 h-3.5 rounded text-brand-success focus:ring-0 focus:ring-offset-0 bg-brand-dark border-gray-700">
+                            <div>
+                                <span class="text-xs font-semibold text-white">① 双重金标签认证</span>
+                                <p class="text-[10px] text-gray-400">商家页面同时拥有「实力商家」+「深度验厂」双重官方标识。</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-2 rounded bg-brand-dark/30 border border-gray-800/40 hover:bg-gray-800/20 cursor-pointer transition-all">
+                            <input type="checkbox" id="sc_2" class="sc-chk mt-1 w-3.5 h-3.5 rounded text-brand-success focus:ring-0 focus:ring-offset-0 bg-brand-dark border-gray-700">
+                            <div>
+                                <span class="text-xs font-semibold text-white">② 工厂年限 &ge; 5年 且 店铺回头采购率 &ge; 30%</span>
+                                <p class="text-[10px] text-gray-400">在 1688 经营满 5 年以上，大B端老客户回头采购率高于行业及格线 30%。</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-2 rounded bg-brand-dark/30 border border-gray-800/40 hover:bg-gray-800/20 cursor-pointer transition-all">
+                            <input type="checkbox" id="sc_3" class="sc-chk mt-1 w-3.5 h-3.5 rounded text-brand-success focus:ring-0 focus:ring-offset-0 bg-brand-dark border-gray-700">
+                            <div>
+                                <span class="text-xs font-semibold text-white">③ 大学生柔性低起订门槛 (MOQ &le; 100)</span>
+                                <p class="text-[10px] text-gray-400">单单最低起订量 &le; 100 件（或支持 10-20 件混批试样），防范资金压仓。</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-2 rounded bg-brand-dark/30 border border-gray-800/40 hover:bg-gray-800/20 cursor-pointer transition-all">
+                            <input type="checkbox" id="sc_4" class="sc-chk mt-1 w-3.5 h-3.5 rounded text-brand-success focus:ring-0 focus:ring-offset-0 bg-brand-dark border-gray-700">
+                            <div>
+                                <span class="text-xs font-semibold text-white">④ 柔性轻贴牌定制能力 (改外包 / LOGO)</span>
+                                <p class="text-[10px] text-gray-400">工厂愿意承接小批量 OEM 贴不干胶、换中性高档彩盒或改产品外印 LOGO 需求。</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-2 rounded bg-brand-dark/30 border border-gray-800/40 hover:bg-gray-800/20 cursor-pointer transition-all">
+                            <input type="checkbox" id="sc_5" class="sc-chk mt-1 w-3.5 h-3.5 rounded text-brand-success focus:ring-0 focus:ring-offset-0 bg-brand-dark border-gray-700">
+                            <div>
+                                <span class="text-xs font-semibold text-white">⑤ 出口品质保障资质 (质检报告+对应认证)</span>
+                                <p class="text-[10px] text-gray-400">工厂能提供现成的出口口岸质检报告，或者对应的海外准入检测报告（CE/REACH）。</p>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-2 rounded bg-brand-dark/30 border border-gray-800/40 hover:bg-gray-800/20 cursor-pointer transition-all">
+                            <input type="checkbox" id="sc_6" class="sc-chk mt-1 w-3.5 h-3.5 rounded text-brand-success focus:ring-0 focus:ring-offset-0 bg-brand-dark border-gray-700">
+                            <div>
+                                <span class="text-xs font-semibold text-white">⑥ 响应高效 且 备选同款工厂 &ge; 3 家</span>
+                                <p class="text-[10px] text-gray-400">旺旺在线 2 小时内快速回复对接，且在 1688 备有 2 个以上的备份源头，防被要挟。</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mt-5 pt-4 border-t border-gray-800 text-center">
+                    <div id="sc_status" class="w-full py-2 rounded-xl text-[10px] font-bold bg-brand-neutral/10 border border-brand-neutral/20 text-brand-neutral flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-circle-question"></i> 供应链核销状态：尚未完全合规
+                    </div>
+                </div>
+            </div>
+
+            <!-- 15-Factor Cost Calculator (Takes 2 Columns) -->
+            <div class="bg-brand-card border border-gray-800 rounded-2xl shadow-xl p-5 col-span-2 flex flex-col justify-between">
+                <div>
+                    <div class="border-b border-gray-800 pb-3 mb-4">
+                        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-brand-primary"></i> 15项全成本在线精算计算器 (100%对齐官方科目)
+                        </h2>
+                        <p class="text-[10px] text-gray-400 mt-1">杜绝漏项即亏损！包含 货品、跨境物流、平台运营 三大板块共 15 个硬科目</p>
+                    </div>
+
+                    <!-- 15 Kinds of Cost inputs breakdown -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 custom-scrollbar overflow-y-auto max-h-[380px] pr-2">
+                        <!-- 第一版块：货品成本 -->
+                        <div class="space-y-3 bg-brand-dark/20 p-3 rounded-lg border border-gray-850">
+                            <h4 class="text-[10px] font-bold text-brand-gold border-b border-brand-gold/10 pb-1 flex items-center gap-1">
+                                <i class="fa-solid fa-box"></i> (一) 货品研发成本明细
+                            </h4>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">① 工厂出厂价 (RMB)</label>
+                                <input type="number" id="c1" value="8.4" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-brand-gold focus:outline-none focus:border-brand-gold font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">② 国内短途运费 (RMB)</label>
+                                <input type="number" id="c2" value="0.5" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">③ 验货抽检费 (RMB/件)</label>
+                                <input type="number" id="c3" value="0.2" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">④ 外包/LOGO定制费 (RMB)</label>
+                                <input type="number" id="c4" value="0.3" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑤ OEM开模打样费 (RMB均摊)</label>
+                                <input type="number" id="c5" value="0.0" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                            </div>
+                        </div>
+
+                        <!-- 第二版块：跨境物流 -->
+                        <div class="space-y-3 bg-brand-dark/20 p-3 rounded-lg border border-gray-850">
+                            <h4 class="text-[10px] font-bold text-brand-primary border-b border-brand-primary/10 pb-1 flex items-center gap-1">
+                                <i class="fa-solid fa-plane"></i> (二) 跨境物流成本明细
+                            </h4>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑥ 国际海空运费率 (RMB/kg)</label>
+                                <input type="number" id="c6" value="38" step="1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-brand-primary focus:outline-none focus:border-brand-primary font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑦ 报关报检费均摊 (RMB/件)</label>
+                                <input type="number" id="c7" value="0.1" step="0.01" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑧ 目的国进口关税比率 (%)</label>
+                                <input type="number" id="c8" value="5" step="0.5" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-brand-primary focus:outline-none focus:border-brand-primary font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑨ 目的国海外仓储费 (RMB均摊)</label>
+                                <input type="number" id="c9" value="0.1" step="0.05" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑩ DDP末端派送费 (RMB/件)</label>
+                                <input type="number" id="c10" value="0.8" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                            </div>
+                        </div>
+
+                        <!-- 第三版块：平台运营 -->
+                        <div class="space-y-3 bg-brand-dark/20 p-3 rounded-lg border border-gray-850">
+                            <h4 class="text-[10px] font-bold text-brand-success border-b border-brand-success/10 pb-1 flex items-center gap-1">
+                                <i class="fa-solid fa-globe"></i> (三) 平台运营成本明细
+                            </h4>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑪ 国际站年费均摊 (RMB/件)</label>
+                                <input type="number" id="c11" value="0.5" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑫ P4P直通车推广占毛利比 (%)</label>
+                                <input type="number" id="c12" value="20" step="1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-brand-success focus:outline-none focus:border-brand-success font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑬ 信用保障交易手续费 (RMB/件)</label>
+                                <input type="number" id="c13" value="0.2" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑭ 外汇兑损预平摊比例 (%)</label>
+                                <input type="number" id="c14" value="2" step="0.5" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-brand-success focus:outline-none focus:border-brand-primary font-semibold">
+                            </div>
+                            <div>
+                                <label class="block text-[9px] text-gray-400 mb-0.5">⑮ 售后退换货准备金率 (%)</label>
+                                <input type="number" id="c15" value="3" step="0.5" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-brand-success focus:outline-none focus:border-brand-primary font-semibold">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 物理测量参数，用于动态折头程运费 -->
+                    <div class="grid grid-cols-5 gap-3 pt-3 border-t border-gray-800 mt-4 bg-brand-dark/10 p-3 rounded-lg border border-gray-800/50">
+                        <div class="col-span-1">
+                            <label class="block text-[9px] text-gray-400 mb-0.5">实物重量 (kg)</label>
+                            <input type="number" id="calcWeight" value="0.25" step="0.01" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary font-semibold">
+                        </div>
+                        <div class="col-span-1">
+                            <label class="block text-[9px] text-gray-400 mb-0.5">长 (cm)</label>
+                            <input type="number" id="calcLength" value="12" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary font-semibold">
+                        </div>
+                        <div class="col-span-1">
+                            <label class="block text-[9px] text-gray-400 mb-0.5">宽 (cm)</label>
+                            <input type="number" id="calcWidth" value="10" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary font-semibold">
+                        </div>
+                        <div class="col-span-1">
+                            <label class="block text-[9px] text-gray-400 mb-0.5">高 (cm)</label>
+                            <input type="number" id="calcHeight" value="8" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-gray-300 focus:outline-none focus:border-brand-primary font-semibold">
+                        </div>
+                        <div class="col-span-1">
+                            <label class="block text-[9px] text-gray-400 mb-0.5">拟报USD价 (FOB)</label>
+                            <input type="number" id="calcFOBPrice" value="6.5" step="0.1" class="calc-input w-full bg-brand-dark border border-gray-800 rounded px-2 py-1 text-xs text-brand-success focus:outline-none focus:border-brand-primary font-bold">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Results Output Cards -->
+                <div class="grid grid-cols-3 gap-3 mt-4 border-t border-gray-800 pt-3">
+                    <div class="bg-brand-dark/40 border border-gray-800/60 p-2.5 rounded-lg flex flex-col justify-between">
+                        <span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">物流抛重核销</span>
+                        <p class="text-xs font-semibold text-white mt-1" id="resVolWeight">0.192 kg <span class="text-[8px] text-gray-500">(/5000)</span></p>
+                        <p class="text-[9px] text-gray-400 mt-1" id="resChargeWeight">计费重: 0.250 kg</p>
+                    </div>
+                    <div class="bg-brand-dark/40 border border-gray-800/60 p-2.5 rounded-lg flex flex-col justify-between">
+                        <span class="text-[9px] text-gray-400 uppercase font-bold tracking-wider">15项综合总成本</span>
+                        <p class="text-xs font-semibold text-brand-danger mt-1" id="resFreight">运费: RMB 9.50</p>
+                        <p class="text-[9px] text-white mt-1" id="resTotalCost">总成本: RMB 30.85</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-brand-card to-brand-dark border border-brand-primary/20 p-2.5 rounded-lg text-center flex flex-col justify-between shadow-lg shadow-brand-primary/5">
+                        <span class="text-[9px] text-gray-400 font-bold uppercase">精算毛利率</span>
+                        <p class="text-xl font-extrabold text-brand-success" id="resMargin">34.5%</p>
+                        <span class="text-[8px] px-1 py-0.5 rounded-full bg-brand-success/10 border border-brand-success/20 text-brand-success mt-0.5 inline-block mx-auto font-bold" id="resStatus">✔ 通过保本线</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- "2+1" COMBINED TESTING & SELLER SCRIPTS -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- 2+1 Portfolio Model -->
+            <div class="bg-brand-card border border-gray-800 p-5 rounded-2xl shadow-xl space-y-4">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-cubes text-brand-gold"></i> 大学生“2+1”轻资产保本测款矩阵方案
+                </h3>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    在跨境电商实操中，千万不要将宝贵的本金单兵突击。通过将 1 款中高毛利的大容量主力品、1 款情感高溢价低退货率品 and 1 款轻量测试低 MOQ 品组成测款包上架，以保本组合拳迎战。
+                </p>
+                <div class="space-y-3 pt-2">
+                    <div class="bg-brand-dark/50 border border-gray-800 p-3 rounded-lg flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-brand-success/10 text-brand-success flex items-center justify-center text-xs font-bold">1</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">主力流量品 (大容量，中高毛利) — 占备货件数 50%</p>
+                            <p class="text-[10px] text-brand-success mt-0.5">【推荐：可降解训练尿垫】 稳住直通车基础展现，累积交易台账与星级评级。</p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-dark/50 border border-gray-800 p-3 rounded-lg flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-brand-gold/10 text-brand-gold flex items-center justify-center text-xs font-bold">2</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">高毛利利润品 (情感高粘性，退货率&le;3%) — 占备货件数 30%</p>
+                            <p class="text-[10px] text-brand-gold mt-0.5">【推荐：宠物殡葬纪念用品】 提供纯现金流，防范无尺寸退货损耗，建立溢价壁垒。</p>
+                        </div>
+                    </div>
+                    <div class="bg-brand-dark/50 border border-gray-800 p-3 rounded-lg flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center text-xs font-bold">3</div>
+                        <div>
+                            <p class="text-xs font-bold text-white">轻量快速测试品 (零开模，极低 MOQ) — 占备货件数 20%</p>
+                            <p class="text-[10px] text-brand-primary mt-0.5">【推荐：降噪安抚耳罩】 采购价仅 3 元，MOQ 20 件。利用贴纸快速测试长尾商机。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Defence Script for Contest -->
+            <div class="bg-brand-card border border-gray-800 p-5 rounded-2xl shadow-xl space-y-4">
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-comments text-brand-success"></i> 跨境电商大赛评委质询 · 防弹级答辩说辞
+                </h3>
+                <p class="text-xs text-gray-400">
+                    大赛答辩中，评委常对热门高流量单品（如粪便袋、发声玩具、狗笼等）情有独钟，并质问你们为何只切入小众冷门方向。以下是助你获得全场最高印象分的防弹答辩说辞：
+                </p>
+                <div class="bg-brand-dark/50 border border-gray-800 p-4 rounded-lg space-y-3 text-[11px] leading-relaxed text-gray-300">
+                    <div>
+                        <p class="font-bold text-brand-danger">● 评委提问：“可生物降解拾便袋是现在欧美爆款，大牌卖得非常好，你们为什么不做？”</p>
+                        <p class="mt-1 text-gray-400">
+                            <strong>答辩说辞：</strong>“拾便袋虽是爆款，但根据我们的 **15项全成本精算系统** 穿透，该品类属于高频低客单价红海白牌。同质化极其严重导致 **直通车P4P推广费直接吞噬了12%的营业额**；由于自重重，**国际海运及港口费平摊高达18%**。同时，由于环保法案收紧，头部品牌 Earth Rated 近期刚因环保无证虚假宣传被判赔偿 82.5 万美元。在无真实 BPI/EN13432 证书背书下，极易遭遇绿洗指控。精算后该品类真实毛利率仅有 **17.5%**，无法为资金极度有限的大学生初创提供任何安全垫，属于典型纸面富贵。因此我们一票否决，改走情感定制的制造纪念品，以高达 70% 的纯利及 $\le 3\%$ 的极低退货率锁定保本护城河。”
+                        </p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-brand-danger">● 评委提问：“降噪耳罩属于小众功能品，听力保护是否有医疗合规风险？”</p>
+                        <p class="mt-1 text-gray-400">
+                            <strong>答辩说辞：</strong>“我们已经进行了严格的 **去功能化合规重构**。在文案和产品包装中，我们抹去了一切涉医、涉特种强标等医疗词汇。我们将产品定位进行降维与萌系重构，改写为 **‘雷雨烟花日常声学安抚防卫套’**，走颜值升级和柔性定制。同时，针对国内苏州、温州源头工厂进行 6 维验厂，小批量采购拿现货改不干胶彩盒贴纸。不仅避开了高额的 FDA/EPA 注册壁垒，且包装可压缩折叠 40%，有效降低了体积重，确保了高溢价和极高的本金周转率。”
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800 bg-brand-dark/80 py-6 mt-12 text-center text-xs text-gray-500">
+        <p>© 2026 第三届全国大学生跨境电商大赛 · 黄金星选品保本系统决策看板</p>
+        <p class="mt-1 text-brand-primary/60">Data Verified by Accio Sourcing AI | Multi-Source Integration (Kimi, Doubao, Deepseek)</p>
+    </footer>
+
+    <!-- JAVASCRIPT FOR CHARTS AND CALCULATOR -->
+    <script>
+        // Table Search and Filter JS
+        const tableSearchInput = document.getElementById('tableSearch');
+        const gradeFilterSelect = document.getElementById('gradeFilter');
+        const tableRows = document.querySelectorAll('.table-row-item');
+        const catRows = document.querySelectorAll('.category-row-header');
+
+        function filterTable() {
+            const searchValue = tableSearchInput.value.toLowerCase();
+            const selectedGrade = gradeFilterSelect.value;
+
+            // 1. 过滤具体的产品行
+            tableRows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                const rowGrade = row.getAttribute('data-grade');
+                
+                const matchesSearch = text.includes(searchValue);
+                const matchesGrade = selectedGrade === 'all' || rowGrade === selectedGrade;
+
+                if (matchesSearch && matchesGrade) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            // 2. 如果某个大类下所有产品都隐藏了，则把大类的 Header 也隐藏
+            catRows.forEach(catRow => {
+                const catId = catRow.getAttribute('data-cat');
+                const siblingProducts = document.querySelectorAll('.table-row-item[data-cat="' + catId + '"]');
+                let hasVisibleSibling = false;
+                
+                siblingProducts.forEach(prod => {
+                    if (!prod.classList.contains('hidden')) {
+                        hasVisibleSibling = true;
+                    }
+                });
+
+                if (hasVisibleSibling) {
+                    catRow.classList.remove('hidden');
+                } else {
+                    catRow.classList.add('hidden');
+                }
+            });
+        }
+
+        tableSearchInput.addEventListener('input', filterTable);
+        gradeFilterSelect.addEventListener('change', filterTable);
+
+        // Chart.js 1: 2D Priority Bubble Chart (扩充到21款全单品标注)
+        const ctxBubble = document.getElementById('priorityBubbleChart').getContext('2d');
+        const priorityBubbleChart = new Chart(ctxBubble, {
+            type: 'bubble',
+            data: {
+                datasets: [
+                    {
+                        label: '产品七：殡葬纪念品 (S级)',
+                        data: [{ x: 8.8, y: 2.2, r: 15 }],
+                        backgroundColor: 'rgba(255, 215, 0, 0.75)',
+                        borderColor: '#FFD700',
+                    },
+                    {
+                        label: '鸟类微型智能追踪器 (A级)',
+                        data: [{ x: 8.2, y: 3.2, r: 12 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '室外无线GPS定位围栏 (A级)',
+                        data: [{ x: 8.5, y: 2.8, r: 13 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '智能夜光追踪项圈 (A级)',
+                        data: [{ x: 7.8, y: 3.4, r: 11 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '宠物降噪耳罩 (A级)',
+                        data: [{ x: 7.9, y: 3.5, r: 12 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '水族高仿真造景件 (A级)',
+                        data: [{ x: 8.0, y: 3.0, r: 14 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '仓鼠实木爬梯木屋 (A级)',
+                        data: [{ x: 7.5, y: 3.8, r: 13 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '精致铁艺互动鸟笼 (A级)',
+                        data: [{ x: 7.2, y: 4.2, r: 12 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '超声波防犬吠训练器 (A级)',
+                        data: [{ x: 7.7, y: 3.6, r: 12 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '矮脚犬高韧关节楼梯 (A级)',
+                        data: [{ x: 7.4, y: 3.9, r: 13 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '硅胶洗澡手套 (A级)',
+                        data: [{ x: 7.1, y: 4.0, r: 11 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '尼龙防反光胸背 (A级)',
+                        data: [{ x: 7.3, y: 4.1, r: 12 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '3合1随行旅行水瓶 (A级)',
+                        data: [{ x: 7.6, y: 3.7, r: 13 }],
+                        backgroundColor: 'rgba(72, 202, 228, 0.75)',
+                        borderColor: '#48CAE4',
+                    },
+                    {
+                        label: '可降解训练尿垫 (B级)',
+                        data: [{ x: 6.8, y: 5.5, r: 20 }],
+                        backgroundColor: 'rgba(46, 196, 182, 0.75)',
+                        borderColor: '#2EC4B6',
+                    },
+                    {
+                        label: '圣诞高透蕾丝服饰 (B级)',
+                        data: [{ x: 6.5, y: 5.8, r: 16 }],
+                        backgroundColor: 'rgba(46, 196, 182, 0.75)',
+                        borderColor: '#2EC4B6',
+                    },
+                    {
+                        label: '拾便夹子器 (B级)',
+                        data: [{ x: 6.0, y: 4.8, r: 10 }],
+                        backgroundColor: 'rgba(46, 196, 182, 0.6)',
+                        borderColor: '#2EC4B6',
+                    },
+                    {
+                        label: '可降解拾便袋 (C级)',
+                        data: [{ x: 5.5, y: 7.8, r: 25 }],
+                        backgroundColor: 'rgba(108, 117, 125, 0.5)',
+                        borderColor: '#6C757D',
+                    },
+                    {
+                        label: '万圣/圣诞节日变身服饰 (C级)',
+                        data: [{ x: 4.5, y: 8.2, r: 18 }],
+                        backgroundColor: 'rgba(108, 117, 125, 0.5)',
+                        borderColor: '#6C757D',
+                    },
+                    {
+                        label: '发声咬嚼玩具 (C级)',
+                        data: [{ x: 4.0, y: 7.5, r: 15 }],
+                        backgroundColor: 'rgba(108, 117, 125, 0.5)',
+                        borderColor: '#6C757D',
+                    },
+                    {
+                        label: '大型刚性狗笼 (C级)',
+                        data: [{ x: 3.0, y: 9.0, r: 22 }],
+                        backgroundColor: 'rgba(108, 117, 125, 0.5)',
+                        borderColor: '#6C757D',
+                    },
+                    {
+                        label: '药残防虫项圈 (⛔强制排除)',
+                        data: [{ x: 1.0, y: 9.8, r: 10 }],
+                        backgroundColor: 'rgba(230, 57, 70, 0.75)',
+                        borderColor: '#E63946',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: { display: true, text: '大盘需求吸引力 (分数 0-10)', color: '#A0AEC0' },
+                        grid: { color: '#2D3748' },
+                        ticks: { color: '#A0AEC0' },
+                        min: 0,
+                        max: 10
+                    },
+                    y: {
+                        title: { display: true, text: '执行与风控难度 (分数 0-10，高=难/一票否决多)', color: '#A0AEC0' },
+                        grid: { color: '#2D3748' },
+                        ticks: { color: '#A0AEC0' },
+                        min: 0,
+                        max: 10
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ' | 需求分: ' + context.raw.x + ', 难度分: ' + context.raw.y;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Chart.js 2: Cost Breakdown Doughnut Chart
+        const ctxDoughnut = document.getElementById('costDoughnutChart').getContext('2d');
+        const costDoughnutChart = new Chart(ctxDoughnut, {
+            type: 'doughnut',
+            data: {
+                labels: ['1688货品研发', '跨境海空运费', 'P4P直通车推广', '进口关税(北美)', '信保+外汇损益', '售后与仓储末端'],
+                datasets: [{
+                    data: [25, 18, 12, 10, 4, 31], // 对齐大赛 15 项真实分摊
+                    backgroundColor: [
+                        '#48CAE4',
+                        '#F77F00',
+                        '#E63946',
+                        '#FFD700',
+                        '#2EC4B6',
+                        '#1C2541'
+                    ],
+                    borderColor: '#0B132B',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { color: '#A0AEC0', font: { size: 9 } }
+                    }
+                },
+                cutout: '60%'
+            }
+        });
+
+        // 1688 Checkbox Status updater
+        const scCheckboxes = document.querySelectorAll('.sc-chk');
+        const scStatusDiv = document.getElementById('sc_status');
+
+        function updateSCStatus() {
+            let checkedCount = 0;
+            scCheckboxes.forEach(chk => {
+                if (chk.checked) checkedCount++;
+            });
+
+            if (checkedCount === 6) {
+                scStatusDiv.className = "w-full py-2 rounded-xl text-[10px] font-bold bg-brand-success/10 border border-brand-success/20 text-brand-success flex items-center justify-center gap-1.5 animate-pulse";
+                scStatusDiv.innerHTML = '<i class="fa-solid fa-circle-check"></i> ✔ 1688 源头供应链 6 项落地标准完美通过！';
+            } else {
+                scStatusDiv.className = "w-full py-2 rounded-xl text-[10px] font-bold bg-brand-neutral/10 border border-brand-neutral/20 text-brand-neutral flex items-center justify-center gap-1.5";
+                scStatusDiv.innerHTML = '<i class="fa-solid fa-circle-question"></i> 供应链核销状态：尚未完全合规 (' + checkedCount + '/6 勾选)';
+            }
+        }
+
+        scCheckboxes.forEach(chk => {
+            chk.addEventListener('change', updateSCStatus);
+        });
+
+        // 15-FACTOR COST CALCULATOR 100% COMPLIANT LOGIC
+        const calcInputs = document.querySelectorAll('.calc-input');
+        
+        function calculate15Costs() {
+            // Section 1: 货品成本 (1-5)
+            const c1 = parseFloat(document.getElementById('c1').value) || 0;
+            const c2 = parseFloat(document.getElementById('c2').value) || 0;
+            const c3 = parseFloat(document.getElementById('c3').value) || 0;
+            const c4 = parseFloat(document.getElementById('c4').value) || 0;
+            const c5 = parseFloat(document.getElementById('c5').value) || 0;
+
+            // Section 2: 跨境物流成本 (6-10)
+            const c6_rate = parseFloat(document.getElementById('c6').value) || 0;
+            const c7 = parseFloat(document.getElementById('c7').value) || 0;
+            const c8_rate = (parseFloat(document.getElementById('c8').value) || 0) / 100;
+            const c9 = parseFloat(document.getElementById('c9').value) || 0;
+            const c10 = parseFloat(document.getElementById('c10').value) || 0;
+
+            // Section 3: 平台运营成本 (11-15)
+            const c11 = parseFloat(document.getElementById('c11').value) || 0;
+            const c12_pct = (parseFloat(document.getElementById('c12').value) || 0) / 100; // P4P 占毛利比
+            const c13 = parseFloat(document.getElementById('c13').value) || 0;
+            const c14_pct = (parseFloat(document.getElementById('c14').value) || 0) / 100; // 汇兑损益
+            const c15_pct = (parseFloat(document.getElementById('c15').value) || 0) / 100; // 售后折损
+
+            // 物理及销售定价参数
+            const weight = parseFloat(document.getElementById('calcWeight').value) || 0;
+            const l = parseFloat(document.getElementById('calcLength').value) || 0;
+            const w = parseFloat(document.getElementById('calcWidth').value) || 0;
+            const h = parseFloat(document.getElementById('calcHeight').value) || 0;
+            const fobPriceUsd = parseFloat(document.getElementById('calcFOBPrice').value) || 0;
+            const exchange = 7.25; // 美元汇率固定 7.25
+
+            // 1. 销售收入折算 (本币 RMB)
+            const revenueRmb = fobPriceUsd * exchange;
+
+            // 2. 物流体积重与结算计重
+            const volWeight = (l * w * h) / 5000;
+            document.getElementById('resVolWeight').innerHTML = volWeight.toFixed(3) + ' kg <span class="text-[8px] text-gray-500">(/5000)</span>';
+
+            const chargeWeight = Math.max(weight, volWeight);
+            const isVolWeightLarger = volWeight > weight;
+            document.getElementById('resChargeWeight').innerHTML = '结算重: ' + chargeWeight.toFixed(3) + ' kg ' + 
+                (isVolWeightLarger ? '<span class="text-[8px] text-brand-accent">(体积重大)</span>' : '<span class="text-[8px] text-brand-success">(实重大)</span>');
+
+            // 3. 计算 ⑥ 国际运费 (RMB)
+            const freightCost = chargeWeight * c6_rate;
+            document.getElementById('resFreight').innerText = '运费: RMB ' + freightCost.toFixed(2);
+
+            // 4. 精算初步总成本 (除 P4P 以外的所有硬性固定及浮动支出)
+            const c8_tariff = revenueRmb * c8_rate; // ⑧ 目的国进口关税 (RMB)
+            const c14_exchange = revenueRmb * c14_pct; // ⑭ 外汇兑损 (RMB)
+            const c15_refund = revenueRmb * c15_pct; // ⑮ 售后折损 (RMB)
+
+            const fixedAndRatioCostWithoutP4P = c1 + c2 + c3 + c4 + c5 + freightCost + c7 + c8_tariff + c9 + c10 + c11 + c13 + c14_exchange + c15_refund;
+
+            // 5. 初步毛利 (未扣除 P4P 前)
+            const preliminaryMarginRmb = revenueRmb - fixedAndRatioCostWithoutP4P;
+
+            // 6. ⑫ P4P 推广费用 (占毛利的 15%-25% 动态提取)
+            const p4pCost = Math.max(0, preliminaryMarginRmb * c12_pct);
+
+            // 7. 15项全成本总计
+            const totalCost15 = fixedAndRatioCostWithoutP4P + p4pCost;
+            document.getElementById('resTotalCost').innerText = '总成本: RMB ' + totalCost15.toFixed(2);
+
+            // 8. 最终实得净毛利与毛利率
+            const finalProfit = revenueRmb - totalCost15;
+            let finalMarginPct = 0;
+            if (revenueRmb > 0) {
+                finalMarginPct = (finalProfit / revenueRmb) * 100;
+            }
+
+            const resMargin = document.getElementById('resMargin');
+            const resStatus = document.getElementById('resStatus');
+
+            resMargin.innerText = finalMarginPct.toFixed(1) + '%';
+
+            // 9. 状态判断
+            if (finalMarginPct >= 30) {
+                resMargin.className = "text-xl font-extrabold text-brand-success mt-1";
+                resStatus.className = "text-[8px] px-1 py-0.5 rounded-full bg-brand-success/10 border border-brand-success/20 text-brand-success mt-0.5 inline-block mx-auto font-bold animate-pulse";
+                resStatus.innerHTML = '✔ 通过 30% 保本线';
+            } else if (finalMarginPct >= 0 && finalMarginPct < 30) {
+                resMargin.className = "text-xl font-extrabold text-brand-gold mt-1";
+                resStatus.className = "text-[8px] px-1 py-0.5 rounded-full bg-brand-gold/10 border border-brand-gold/20 text-brand-gold mt-0.5 inline-block mx-auto font-bold";
+                resStatus.innerHTML = '⚠️ 警戒！保本空间极低';
+            } else {
+                resMargin.className = "text-xl font-extrabold text-brand-danger mt-1";
+                resStatus.className = "text-[8px] px-1 py-0.5 rounded-full bg-brand-danger/10 border border-brand-danger/20 text-brand-danger mt-0.5 inline-block mx-auto font-bold";
+                resStatus.innerHTML = '❌ 亏损！全成本击穿售价';
+            }
+        }
+
+        // Add Listeners
+        calcInputs.forEach(el => {
+            el.addEventListener('input', calculate15Costs);
+        });
+
+        // Initialize Calculator
+        calculate15Costs();
+    </script>
+</body>
+</html>
